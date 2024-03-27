@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    @apply bg-gray-800 text-neutral-100 overflow-x-hidden text-gray-300;
+    /* color: rgba(255, 255, 255, 0.87); */
+    /* background-color: #242424; */
+  }
+}
+
