@@ -3,16 +3,10 @@ import './App.css'
 import {Navbar} from './components/Navbar'
 import {Footer} from './components/Footer'
 import {PolyRhythmStage} from './components/PolyRhythmStage'
+import {ColorPicker} from './components/ColorPicker'
 
 
 
-const ColorPicker = ({color, setColor}) => {
-  return (
-    <div className='flex w-6'>
-      <input className='gray-300 bg-gray-800 mt-0.5 text-center' type='color' value={color} onChange={(e) => setColor(e.target.value)} />
-    </div>
-  )
-}
 
 const NumberInput = ({value, onChange}) => {
   // return (
@@ -27,22 +21,43 @@ const NumberInput = ({value, onChange}) => {
   )
 }
 
-const PolyrhythmSettingCard = ({polyrhythm, setPolyrhythms, polyrhythmsArray, setPolyrhythmsArray}) => {
-
-  const colorTable = ['#ff00ff', '#00eeee', '#eeeeee', '#00ff00', '#ff0000']
-
-  const [color, setColor] = useState('#ff00ff')
+const PolyrhythmSettingCard = ({polyrhythm, setPolyrhythms, polyrhythmsArray, setPolyrhythmsArray, color, index, colorTable, setColorTable}) => {
 
   const handleRemovePolyrhythm = () => {
     const newPolyrhythms = polyrhythmsArray.filter((rhythm) => rhythm !== polyrhythm)
+    const newColorTable = colorTable.filter((color, i) => i !== index)
     setPolyrhythmsArray(newPolyrhythms)
+    setColorTable(newColorTable)
+  }
+
+  const handlePolyrhythmUpdate = (e) => {
+    const value = parseInt(e.target.value);
+    if (value < 1 || value > 50) {
+      setPolyrhythms(1);
+      return;
+    } else if (polyrhythmsArray.includes(value)) {
+      // If the value is in polyrhythmsArray, increment or decrement the value until a value not in the array is found
+      let newValue = value;
+      do {
+        newValue++;
+      } while (polyrhythmsArray.includes(newValue) && newValue <= 50);
+      if (newValue > 50) {
+        newValue = value;
+        do {
+          newValue--;
+        } while (polyrhythmsArray.includes(newValue) && newValue >= 1);
+      }
+      setPolyrhythms(newValue);
+      return;
+    }
+    setPolyrhythms(value);
   }
 
   return (
     <div className='flex flex-col'>
       <div className='flex'>
-        <ColorPicker />
-        <NumberInput value={polyrhythm} onChange={(e) => setPolyrhythms(parseInt(e.target.value))} />
+        <ColorPicker index={index} colorTable={colorTable} setColorTable={setColorTable}/>
+        <NumberInput value={polyrhythm} onChange={handlePolyrhythmUpdate} />
         <button className='text-red-600 font-extrabold rounded-md p-1 mx-1' onClick={handleRemovePolyrhythm}>X</button>
       </div>
     </div>
@@ -56,6 +71,8 @@ function App() {
   // polyrythm app
   const [tempo, setTempo] = useState(40)
   const [timeSignature, setTimeSignature] = useState(4)
+  const [colorTable, setColorTable] = useState(['#ff00ff', '#00ffff', '#ffffff', '#00ff00', '#ff0000', '#ffff00'])
+
 
   // const [polyrhythmsArray, setPolyrhythmsArray] = useState([{polyrhythm: 3, color: '#ff00ff'}, {polyrhythm: 7, color: '#ff0000'}])
   const [polyrhythmsArray, setPolyrhythmsArray] = useState([3, 7])
@@ -71,7 +88,15 @@ function App() {
       alert('Max 5 polyrhythms')
       return
     }
-    setPolyrhythmsArray([...polyrhythmsArray, 3])
+
+    //new polyrhythm that is not in the array
+    const newPolyrhythm = Math.floor(Math.random() * 5) + 3
+    if (polyrhythmsArray.includes(newPolyrhythm)) {
+      handleAddPolyrhythm()
+      return
+    }
+    
+    setPolyrhythmsArray([...polyrhythmsArray, newPolyrhythm])
   }
 
   const handleSetTempo = (e) => {
@@ -94,11 +119,11 @@ function App() {
               <NumberInput value={tempo} onChange={handleSetTempo} />
             </div>
           </div>
-          <div className='shrink-0'><PolyRhythmStage tempo={tempo} polyrhythmsArray={polyrhythmsArray} /></div>
+          <div className='shrink-0'><PolyRhythmStage tempo={tempo} polyrhythmsArray={polyrhythmsArray} colorTable={colorTable} /></div>
           <div className='flex-1 w-32 py-2'>
             <label>Polyrhythms</label>
             {polyrhythmsArray.map((polyrhythm, i) => (
-              <PolyrhythmSettingCard key={i} polyrhythmsArray={polyrhythmsArray} setPolyrhythmsArray={setPolyrhythmsArray} polyrhythm={polyrhythm} setPolyrhythms={(value) => setPolyrhythms(value, i)} />
+              <PolyrhythmSettingCard key={i} polyrhythmsArray={polyrhythmsArray} setPolyrhythmsArray={setPolyrhythmsArray} polyrhythm={polyrhythm} index={i} colorTable={colorTable} setColorTable={setColorTable} setPolyrhythms={(value) => setPolyrhythms(value, i)} />
             ))}
             <button className='bg-cyan-400 text-gray-900 rounded-md px-3 py-1 m-1' onClick={handleAddPolyrhythm}>Add</button>
           </div>

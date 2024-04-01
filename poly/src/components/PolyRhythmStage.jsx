@@ -9,7 +9,7 @@ import a3 from '../assets/a3.wav'
 import {PolyPointer} from './PolyPointer'
 import {PolyrhythmVisualizer} from './PolyrhythmVisualizer'
 
-export const PolyRhythmStage = ({tempo, polyrhythmsArray}) => {
+export const PolyRhythmStage = ({tempo, polyrhythmsArray,colorTable}) => {
 
     const stageRef = useRef(null)
     const stageWidth = 400;
@@ -17,7 +17,6 @@ export const PolyRhythmStage = ({tempo, polyrhythmsArray}) => {
   
     // const sourceTable = [perc1, perc2, perc3]
     const sourceTable = [a1, a2, a3, a3, a3]
-    const colorTable = ['#ff00ff', '#00eeee', '#eeeeee', '#00ff00', '#ff0000']
   
   
   
