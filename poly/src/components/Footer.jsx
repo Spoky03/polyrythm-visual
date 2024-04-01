@@ -13,7 +13,7 @@ export const Footer = () => {
 
     return (
         <>
-            <footer className='bg-slate-900 text-gray-400 text-center py-5'>
+            <footer className='bg-slate-900 text-gray-400 text-center py-5 w-full'>
                 <div className='container mx-auto px-4'>
                     <div className='flex flex-wrap justify-center gap-5'>
                         <Link to='/'>Home</Link>
