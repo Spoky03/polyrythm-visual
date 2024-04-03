@@ -1,43 +1,70 @@
-import React, { useRef } from 'react'
-import { Stage, Layer } from 'react-konva'
-import perc1 from '../assets/perc1.wav'
-import perc2 from '../assets/perc2.wav'
-import perc3 from '../assets/perc3.wav'
-import a1 from '../assets/a1.wav'
-import a2 from '../assets/a2.wav'
-import a3 from '../assets/a3.wav'
+import { useRef} from 'react'
+import { Stage, Layer,Text } from 'react-konva'
 import {PolyPointer} from './PolyPointer'
 import {PolyrhythmVisualizer} from './PolyrhythmVisualizer'
 
-export const PolyRhythmStage = ({tempo, polyrhythmsArray,colorTable}) => {
+export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable, stageHeight, stageWidth, volume, pause, setPause, refresh}) => {
 
     const stageRef = useRef(null)
-    const stageWidth = 400;
-    const stageHeight = 400;
-  
-    // const sourceTable = [perc1, perc2, perc3]
-    const sourceTable = [a1, a2, a3, a3, a3]
-  
-  
-  
+
+    const handleStageClick = () => {
+      const stage = stageRef.current
+      const pointer = stage.getPointerPosition()
+      console.log(pointer)
+    }
+
+    
+
     return(
       <>
-      <Stage width={stageWidth} height={stageHeight} ref={stageRef} className='bg-gray-700 m-5 rounded-2xl shadow-md p-10'>
-        <PolyPointer x={stageWidth/2} y={0} color='#ffffff' />
-        <Layer>
-            {polyrhythmsArray.map((polyrhythm, i) => (
+      <Stage width={stageWidth} height={stageHeight+stageHeight/10} ref={stageRef} className='bg-slate-300 dark:bg-gray-900 m-5 rounded-2xl shadow-md p-10' onClick={handleStageClick}>
+        {/* <Layer>          
+          <Circle x={stageWidth/2} y={stageHeight/2} radius={stageWidth/2 - stageWidth/12} fill='transparent' stroke='#aaaaaa' strokeWidth={1}/>
+        </Layer> */}
+        { polyrhythmsArray.length > 0 ?
+          <>
+            <PolyPointer x={stageWidth/2} y={0}/>
+
+            <Layer key={refresh}>
+              {polyrhythmsArray.map((polyrhythmObj, i) => (
                 <PolyrhythmVisualizer
-                    key={`${polyrhythmsArray.length}-${i}`}
-                    polyrhythm={polyrhythm}
-                    audioSrc={sourceTable[i]}
-                    tempo={tempo}
-                    color={colorTable[i]}
-                    width={stageWidth}
-                    height={stageHeight}
+                  key={`${polyrhythmsArray.length}-${i}`}
+                  polyrhythm={polyrhythmObj.polyrhythm}
+                  audioSrc={sourceTable[i]}
+                  tempo={tempo}
+                  color={polyrhythmObj.color}
+                  width={stageWidth}
+                  height={stageHeight}
+                  muteAudio={muteAudio}
+                  index={i}
+                  volume={volume}
+                  pause={pause}
+                  setPause={setPause}
                 />
+              ))}
+            </Layer>
+          </>
+          :
+          <Layer>
+            <Text text="Add polyrythms to start" fontSize={24} align='center' y={stageHeight/2} verticalAlign='center' width={400} fill='white' />
+          </Layer>
+        }
+
+        {/* <Layer>
+          {polyrhythmsArray.map((polyrhythmObj, i) => (
+              <Circle
+                key={`${polyrhythmsArray.length}-${i}`}
+                polyrhythm={polyrhythmObj.polyrhythm}
+                tempo={tempo}
+                fill={polyrhythmObj.color}
+                radius={12}
+                y={stageHeight+20}
+                x={(stageWidth/5*i)+40}
+                stroke={'black'}
+                strokeWidth={1}
+              />
             ))}
-          
-        </Layer>
+        </Layer> */}
       </Stage>
       </>
     )

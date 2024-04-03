@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Group, Circle, Line } from 'react-konva'
-import { Html } from 'react-konva-utils'
-
-
-export const PolyrhythmVisualizer = ({ polyrhythm, rotation, color, width, height,tempo, audioSrc}) => {
+export const PolyrhythmVisualizer = ({ polyrhythm, pause, setPause, color, width, height,tempo, audioSrc, muteAudio, index, volume}) => {
     // draw evenly spaced dots around a circle (polyrhythm)
     const [dots, setDots] = useState([])
     const [lines, setLines] = useState([])
@@ -14,12 +11,21 @@ export const PolyrhythmVisualizer = ({ polyrhythm, rotation, color, width, heigh
   
     const [anglesWithDots, setAnglesWithDots] = useState([])
     const [animateDot, setAnimateDot] = useState(null)
+
+    const [animateDotStatic, setAnimateDotStatic] = useState(false)
+
+    const handleAnimationStatic = () => {
+      setAnimateDotStatic(true)
+      setTimeout(() => {
+        setAnimateDotStatic(null)
+      }, 200)
+    }
   
     const handleAnimation = (i) => {
       setAnimateDot(polyrhythm - i)
       setTimeout(() => {
         setAnimateDot(null)
-      }, 250)
+      }, 125)
     }
   
     useEffect(() => {
@@ -54,26 +60,37 @@ export const PolyrhythmVisualizer = ({ polyrhythm, rotation, color, width, heigh
       }, [polyrhythm, radius, width, height])
       
       const playAudio = () => {
-        const audio = new Audio(audioSrc)
-        audio.play()
+        //const audio = new Audio(audioSrc)
+        if (!muteAudio) {
+          audioSrc.volume = volume 
+          audioSrc.play()}
       }
       useEffect(() => {
         playAudio()
       }
       , [audio])
       
+      const anglesWithDotsSet = new Set(anglesWithDots);
+
       useEffect(() => {
-        const interval = setInterval(() => {
-          setAngle(prevAngle => (prevAngle + 1) % 360) // Use functional update form
-  
-          if (anglesWithDots.includes((angle + 90) % 360)) {
-            handleAnimation(dots[anglesWithDots.indexOf((angle + 90) % 360)].i)
-            setAudio(audio+1)
+        let interval;
+
+        const tick = () => {
+          if (!pause) {
+            setAngle(prevAngle => (prevAngle + 1) % 360); // Use functional update form
+
+            if (anglesWithDotsSet.has((angle + 90) % 360)) {
+              handleAnimation(dots[anglesWithDots.indexOf((angle + 90) % 360)].i);
+              handleAnimationStatic();
+              setAudio(audio + 1);
+            }
           }
-  
-        }, 600/tempo)
-        return () => clearInterval(interval)
-      }, [tempo, angle]) 
+        };
+
+        interval = setInterval(tick, 600/tempo);
+
+        return () => clearInterval(interval);
+      }, [angle,tempo,pause]); // Only depend on `pause`
   
       
   
@@ -102,6 +119,17 @@ export const PolyrhythmVisualizer = ({ polyrhythm, rotation, color, width, heigh
             lineJoin='round'
           />
         </Group>
+        <Circle
+                polyrhythm={polyrhythm}
+                tempo={tempo}
+                fill={color}
+                radius={12}
+                y={height+15}
+                x={(width/5*index)+40}
+                scale={animateDotStatic ? {x: 1.5, y: 1.5} : {x: 1, y: 1}}
+                shadowColor={color}
+                shadowBlur={animateDotStatic ? 5 : 3}
+              />
         </>
       )
     }

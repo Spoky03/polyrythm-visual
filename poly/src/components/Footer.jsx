@@ -13,12 +13,10 @@ export const Footer = () => {
 
     return (
         <>
-            <footer className='bg-slate-900 text-gray-400 text-center py-5 w-full'>
+            <footer className='bg-slate-200 text-slate-900 dark:bg-slate-900 dark:text-gray-300 text-center py-5 w-screen min-w-full'>
                 <div className='container mx-auto px-4'>
-                    <div className='flex flex-wrap justify-center gap-5'>
-                        <Link to='/'>Home</Link>
+                    <div className='flex flex-wrap justify-center xl:gap-10 md:gap-7 gap-4'>
                         <Link to='/about'>About</Link>
-                        <Link to='/contact'>Contact</Link>
                         <Link className="flex gap-1" to='https://github.com/Spoky03'> <FaGithub className="place-self-center" />Github</Link>
                     </div>
                     <p className='mt-4'>© {year} Stefan Grzelec</p>
