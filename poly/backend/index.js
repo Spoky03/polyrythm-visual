@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 // require('dotenv').config()
 const app = express()
-app.use(express.static('dist'))
+app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.json())
 app.use(cors())
 
@@ -48,7 +48,7 @@ app.get('*', (req, res) => res.sendFile(path.resolve('dist', 'index.html')));
 app.use(unknownEndpoint)
 
 console.log('process.env.PORT', process.env.PORT)
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
