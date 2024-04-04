@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path');
 const fs = require('fs');
-require('dotenv').config()
+// require('dotenv').config()
 const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
