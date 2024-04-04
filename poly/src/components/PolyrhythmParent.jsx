@@ -4,24 +4,6 @@ import { LeftSettings } from './LeftSettings';
 import { RightSettings } from './RightSettings';
 
 
-// import a1 from '../assets/set_1/1.wav'
-// import a2 from '../assets/set_1/2.wav'
-// import a3 from '../assets/set_1/3.wav'
-// import a4 from '../assets/set_1/4.wav'
-// import a5 from '../assets/set_1/5.wav'
-
-// import b1 from '../assets/set_2/1.wav'
-// import b2 from '../assets/set_2/2.wav'
-// import b3 from '../assets/set_2/3.wav'
-// import b4 from '../assets/set_2/4.wav'
-// import b5 from '../assets/set_2/5.wav'
-
-// import c1 from '../assets/set_3/1.wav'
-// import c2 from '../assets/set_3/2.wav'
-// import c3 from '../assets/set_3/3.wav'
-// import c4 from '../assets/set_3/4.wav'
-// import c5 from '../assets/set_3/5.wav'
-
 const url = 'http://localhost:3001/api';
 
 export const PolyrhythmParent = ({volume, muteAudio}) => {
@@ -78,38 +60,11 @@ export const PolyrhythmParent = ({volume, muteAudio}) => {
     ).then(buffers => {
       const buffersMap = Object.assign({}, ...buffers);
       setAudioBuffers(buffersMap);
-      // // Group the audio buffers into sets
-      // const sets = [
-      //   ['c1', 'c2', 'c3', 'c4', 'c5'],
-      //   ['a1', 'a2', 'a3', 'a4', 'a5'],
-      //   ['b1', 'b2', 'b3', 'b4', 'b5']
-      // ];
-      // setSoundSets(sets.map(set => set.map(key => buffersMap[key])));
     })
     .catch(error => console.error(error));
     }, []);
 
-
-  
-    // const xc1 = new Audio(c1)
-    // const xc2 = new Audio(c2)
-    // const xc3 = new Audio(c3)
-    // const xc4 = new Audio(c4)
-    // const xc5 = new Audio(c5)
-    // const xa1 = new Audio(a1)
-    // const xa2 = new Audio(a2)
-    // const xa3 = new Audio(a3)
-    // const xa4 = new Audio(a4)
-    // const xa5 = new Audio(a5)
-    // const xb1 = new Audio(b1)
-    // const xb2 = new Audio(b2)
-    // const xb3 = new Audio(b3)
-    // const xb4 = new Audio(b4)
-    // const xb5 = new Audio(b5)
-
-    // const soundSets = [[xc1, xc2, xc3, xc4, xc5, xc5],[xa1, xa2, xa3, xa4, xa5],[xb1, xb2, xb3, xb4, xb5]]
     const [sourceTable, setSourceTable] = useState('a')
-    // const soundSets = [[c1, c2, c3, c4, c5, c5],[a1, a2, a3, a4, a5],[b1, b2, b3, b4, b5]]
     
     const [stageWidth, setStageWidth] = useState(400);
     const [stageHeight, setStageHeight] = useState(400);

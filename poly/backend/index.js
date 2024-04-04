@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path');
+const fs = require('fs');
 const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
@@ -23,12 +24,24 @@ app.get('/api', (request, response) => {
 })
 
 app.get('/api/:file', (request, response) => {
-  const file = request.params.file;
-  response.sendFile(path.resolve(__dirname, `./assets/${file}.wav`));
+  try {
+    const file = request.params.file;
+    const filePath = path.resolve(__dirname, `./assets/${file}.wav`);
+
+    // Check if the file exists before trying to send it
+    if (fs.existsSync(filePath)) {
+      response.sendFile(filePath);
+    } else {
+      response.status(404).json({ message: 'File not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ message: 'An error occurred while trying to send the file' });
+  }
 });
   
 
-
+app.get('*', (req, res) => res.sendFile(path.resolve('dist', 'index.html')));
 
 
 app.use(unknownEndpoint)
