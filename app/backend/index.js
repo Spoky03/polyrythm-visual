@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 // require('dotenv').config()
 const app = express()
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'app/dist')))
 app.use(express.json())
 app.use(cors())
 
