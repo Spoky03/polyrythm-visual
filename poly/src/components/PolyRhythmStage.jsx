@@ -3,7 +3,7 @@ import { Stage, Layer,Text } from 'react-konva'
 import {PolyPointer} from './PolyPointer'
 import {PolyrhythmVisualizer} from './PolyrhythmVisualizer'
 
-export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable, stageHeight, stageWidth, volume, pause, setPause, refresh}) => {
+export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable, stageHeight, stageWidth, volume, pause, setPause, refresh,audioContext, audioBuffers}) => {
 
     const stageRef = useRef(null)
 
@@ -30,7 +30,7 @@ export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable
                 <PolyrhythmVisualizer
                   key={`${polyrhythmsArray.length}-${i}`}
                   polyrhythm={polyrhythmObj.polyrhythm}
-                  audioSrc={sourceTable[i]}
+                  // audioSrc={sourceTable[i]}
                   tempo={tempo}
                   color={polyrhythmObj.color}
                   width={stageWidth}
@@ -40,6 +40,9 @@ export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable
                   volume={volume}
                   pause={pause}
                   setPause={setPause}
+                  sourceTable={sourceTable}
+                  audioBuffers={audioBuffers}
+                  audioContext={audioContext}
                 />
               ))}
             </Layer>

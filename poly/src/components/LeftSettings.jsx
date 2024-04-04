@@ -11,7 +11,7 @@ export function LeftSettings({
   handlePause,
   sourceTable,
   setSourceTable,
-  sound_sets
+  soundSets
 }) {
   return <div className='flex md:flex-col sm:flex-row h-full justify-evenly flex-wrap'>
 
@@ -34,7 +34,7 @@ export function LeftSettings({
 
               <div className='flex flex-col pb-2'>
                 <label className='place-self-center'>Sound Set</label>
-                <SelectSoundSet sourceTable={sourceTable} setSourceTable={setSourceTable} soundSets={sound_sets} />
+                <SelectSoundSet sourceTable={sourceTable} setSourceTable={setSourceTable} soundSets={soundSets} />
               </div>
 
             </div>;

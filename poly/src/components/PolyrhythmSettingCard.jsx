@@ -1,5 +1,4 @@
 import { ColorPicker } from './ColorPicker';
-import { NumberInput } from './NumberInput';
 import { IoClose } from "react-icons/io5";
 
 export const PolyrhythmSettingCard = ({ polyrhythm, setPolyrhythms, polyrhythmsArray, setPolyrhythmsArray, color, index }) => {
@@ -13,7 +12,7 @@ export const PolyrhythmSettingCard = ({ polyrhythm, setPolyrhythms, polyrhythmsA
     const value = parseInt(e.target.value);
 
     // Check if value is a number
-    if (isNaN(value) || !Number.isInteger(value) || value < 2 || value > 30) {
+    if (isNaN(value) || !Number.isInteger(value) || value < 2 || value > 11) {
         return;
     }
 

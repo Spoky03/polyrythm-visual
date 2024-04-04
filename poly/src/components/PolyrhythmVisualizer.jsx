@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Group, Circle, Line } from 'react-konva'
-export const PolyrhythmVisualizer = ({ polyrhythm, pause, setPause, color, width, height,tempo, audioSrc, muteAudio, index, volume}) => {
+export const PolyrhythmVisualizer = ({polyrhythm, pause, setPause, color, width, height,tempo, audioSrc,sourceTable, muteAudio, index, volume,audioContext, audioBuffers}) => {
     // draw evenly spaced dots around a circle (polyrhythm)
     const [dots, setDots] = useState([])
     const [lines, setLines] = useState([])
@@ -59,17 +59,20 @@ export const PolyrhythmVisualizer = ({ polyrhythm, pause, setPause, color, width
         setDots(dots)
       }, [polyrhythm, radius, width, height])
       
+
       const playAudio = () => {
-        //const audio = new Audio(audioSrc)
-        if (!muteAudio) {
-          audioSrc.volume = volume 
-          audioSrc.play()}
+          
+        const gainNode = audioContext['current'].createGain()
+        gainNode.gain.value = volume
+        gainNode.connect(audioContext['current'].destination)
+        
+        const source = audioContext['current'].createBufferSource()
+        source.buffer = audioBuffers[`${sourceTable}${index+1}`]
+        source.connect(gainNode)
+        source.start()
+
       }
-      useEffect(() => {
-        playAudio()
-      }
-      , [audio])
-      
+
       const anglesWithDotsSet = new Set(anglesWithDots);
 
       useEffect(() => {
@@ -82,7 +85,7 @@ export const PolyrhythmVisualizer = ({ polyrhythm, pause, setPause, color, width
             if (anglesWithDotsSet.has((angle + 90) % 360)) {
               handleAnimation(dots[anglesWithDots.indexOf((angle + 90) % 360)].i);
               handleAnimationStatic();
-              setAudio(audio + 1);
+              playAudio();
             }
           }
         };

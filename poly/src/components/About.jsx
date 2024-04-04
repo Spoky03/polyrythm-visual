@@ -2,7 +2,7 @@ import { SiGmail } from "react-icons/si";
 
 export const About = () => {
     return (
-        <div className='flex flex-col gap-4 mt-20 w-96'>
+        <div className='flex flex-col gap-6 mt-20 w-96'>
             <h3 className='text-2xl text-center'>About</h3>
             <p className=''>Polyrhythms are rhythms that are not multiples of each other. This app allows you to create and play polyrhythms.</p>
             
@@ -12,6 +12,13 @@ export const About = () => {
             <h3 className='text-2xl text-center'>Contact</h3>
             <div className="sm:inline-flex hidden justify-center"><SiGmail className="place-self-center mr-1" size={15} />stefangrzelec@gmail.com</div>
 
+            <div>
+                <h3 className='text-2xl text-center text-red-600'>Disclaimer</h3>
+                <div className="border-4 border-red-600  rounded-xl p-5 min-h-fit text-center">
+                    Tempo might not be accurate on some devices due to limitations of JavaScript. 
+
+                </div>
+            </div>
         </div>
     )
 }

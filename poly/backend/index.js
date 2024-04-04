@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const path = require('path');
 const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
@@ -16,6 +17,17 @@ const unknownEndpoint = (request, response) => {
 app.get('/', (request, response) => {
   response.send('<h1>Poly</h1>')
 })
+
+app.get('/api', (request, response) => {
+  response.send('<h1>Poly API</h1>')
+})
+
+app.get('/api/:file', (request, response) => {
+  const file = request.params.file;
+  response.sendFile(path.resolve(__dirname, `./assets/${file}.wav`));
+});
+  
+
 
 
 

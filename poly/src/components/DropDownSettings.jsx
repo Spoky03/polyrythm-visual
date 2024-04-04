@@ -28,8 +28,11 @@ const VolumeSlider = ({ volume, setVolume,muteAudio, setMuteAudio }) => {
 }
 export const DropDownSettings = ({ muteAudio, setMuteAudio, toggleDarkMode, darkMode, volume, setVolume }) => {
 
+  const [rememberedVolume, setRememberedVolume] = useState(0.5);
   const handleToggleMute = () => {
+    setRememberedVolume(volume);
     setMuteAudio(!muteAudio);
+    setVolume(muteAudio ? rememberedVolume : 0);
   };
 
   return (
