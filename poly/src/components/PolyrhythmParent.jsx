@@ -4,7 +4,7 @@ import { LeftSettings } from './LeftSettings';
 import { RightSettings } from './RightSettings';
 
 
-const url = 'http://localhost:3001/api';
+const url = '/api';
 
 export const PolyrhythmParent = ({volume, muteAudio}) => {
 
