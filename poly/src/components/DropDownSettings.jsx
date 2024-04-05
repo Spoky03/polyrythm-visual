@@ -2,30 +2,49 @@ import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { useState } from "react";
 import { useLocation } from 'react-router-dom'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip.tsx"
 
+import Slider from 'react-slider';
 
-
-const VolumeSlider = ({ volume, setVolume,muteAudio, setMuteAudio }) => {
-
+const VolumeSlider = ({ volume, setVolume, muteAudio, setMuteAudio }) => {
   const [localVolume, setLocalVolume] = useState(volume);
 
-  const handleInputUpdate = (event) => {
-    setLocalVolume(event.target.value);
+  const handleInputUpdate = (newValue) => {
+    setLocalVolume(newValue);
   };
 
-  const handleVolumeChange = (event) => {
-    setVolume(localVolume);
-    if (event.target.value == 0) {
+  const handleVolumeChange = (newValue) => {
+    setVolume(newValue);
+    if (newValue == 0) {
       setMuteAudio(true);
-    } else if (event.target.value > volume && muteAudio) {
+    } else if (newValue > volume && muteAudio) {
       setMuteAudio(false);
     }
   };
 
   return (
-    <input type="range" min="0" max="1" step="0.01" value={localVolume} onChange={handleInputUpdate} onMouseUp={handleVolumeChange}/>
-    );
-}
+    <Slider
+      min={0}
+      max={1}
+      step={0.01}
+      value={localVolume}
+      onChange={handleInputUpdate}
+      onAfterChange={handleVolumeChange}
+      className="rounded-md w-full h-5 w-full justify-center place-self-center"
+      thumbClassName="dark:bg-cyan-400 bg-cyan-700 w-5 h-5 rounded-full cursor-pointer top-0"
+      trackClassName="dark:bg-gray-200 bg-slate-900 rounded-2xl inset-y-1.5"
+    />
+  );
+};
+
+
+
+
 export const DropDownSettings = ({ muteAudio, setMuteAudio, toggleDarkMode, darkMode, volume, setVolume }) => {
 
   const [rememberedVolume, setRememberedVolume] = useState(0.5);
@@ -37,9 +56,10 @@ export const DropDownSettings = ({ muteAudio, setMuteAudio, toggleDarkMode, dark
 
   return (
     <div className='mr-5 flex gap-1 text-cyan-800 dark:text-cyan-400'>
+      
       {useLocation().pathname === '/' ? 
       <>
-        <div className="hidden shrink justify-center sm:flex">
+        <div className="hidden shrink justify-center sm:flex w-32">
           <VolumeSlider volume={volume} setVolume={setVolume} muteAudio={muteAudio} setMuteAudio={setMuteAudio} />
         </div>
         <button 
@@ -50,9 +70,18 @@ export const DropDownSettings = ({ muteAudio, setMuteAudio, toggleDarkMode, dark
         </button>
       </>
        : null}
-      <button onClick={toggleDarkMode} className='text-cyan-800 dark:text-cyan-400 rounded-md p-1 m-1  place-self-center hover:animate-[spin_0.6s_ease-in-out]'>
-        {darkMode ? <MdLightMode size={30} /> : <MdDarkMode size={30} />}
-      </button>
+       <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <div role="button" onClick={toggleDarkMode} className='text-cyan-800 dark:text-cyan-400 rounded-md p-1 m-1  place-self-center hover:animate-[spin_0.6s_ease-in-out]'>
+              {darkMode ? <MdLightMode size={30} /> : <MdDarkMode size={30} />}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Change website theme</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };

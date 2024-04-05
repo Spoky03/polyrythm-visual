@@ -2,6 +2,7 @@ import { useState, useEffect} from 'react'
 import {Navbar} from './components/Navbar'
 import {Footer} from './components/Footer'
 import {About} from './components/About'
+import {Pookie} from './components/Pookie'
 import { RouteNotFound } from './components/RouteNotFound'
 import { PolyrhythmParent } from './components/PolyrhythmParent'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -41,6 +42,7 @@ function App() {
             <Route path='/' element={<PolyrhythmParent volume={volume} muteAudio={muteAudio} />} />
             <Route path='/polyrhythm' element={<PolyrhythmParent volume={volume} muteAudio={muteAudio} />} />
             <Route path='/about' element={<About />} />
+            <Route path='/pookie' element={<Pookie />} />
             <Route path='*' element={<RouteNotFound />} />
           </Routes>
         </div>

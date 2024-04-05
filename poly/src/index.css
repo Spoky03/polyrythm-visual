@@ -13,5 +13,6 @@
   .dark{
     @apply bg-gray-800 text-gray-200;
   }
+
 }
 
