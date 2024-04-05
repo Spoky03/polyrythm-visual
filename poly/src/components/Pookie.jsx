@@ -1,4 +1,18 @@
+import { useState } from "react";
 export const Pookie = () => {
+
+    const [negatywy, setNegatywy] = useState([])
+
+    const handleNegatywy = (e) => {
+        setNegatywy(e.target.value)
+    }
+
+    const [negatywyList, setNegatywyList] = useState([])
+    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setNegatywyList([...negatywyList, negatywy])
+    }
     return (
         <div className='flex flex-col gap-6 mt-20 w-96'>
             <div className="flex flex-col">
@@ -16,6 +30,14 @@ export const Pookie = () => {
                         <li className='text-lg'>Pookie postrzela</li>
                         <li className='text-lg'>❤❤❤</li>
                         <li className='text-lg'>valorant wojownicy to my</li>
+                    </ul>
+                    <p className="my-5">negatywy</p>
+                    <input type="text" value={negatywy} onChange={handleNegatywy} className='rounded-xl p-2 w-1/2 text-gray-900 place-self-center' onSubmit={handleSubmit} />
+                    <button className='rounded-xl p-2 bg-purple-600 text-gray-900' onClick={handleSubmit}>Dodaj</button>
+                    <ul className='list-disc list-inside'>
+                        {negatywyList.map((negatywy, index) => (
+                            <li key={index} className='text-lg'>{negatywy}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
