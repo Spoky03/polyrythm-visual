@@ -49,7 +49,7 @@ export const PolyRhythmStage = ({tempo, polyrhythmsArray, muteAudio, sourceTable
           </>
           :
           <Layer>
-            <Text text="Add polyrythms to start" fontSize={24} align='center' y={stageHeight/2} verticalAlign='center' width={400} fill='white' />
+            <Text text="Add rhythms to start" fontSize={24} align='center' y={stageHeight/2} verticalAlign='center' width={400} fill='#94a3b8' />
           </Layer>
         }
 

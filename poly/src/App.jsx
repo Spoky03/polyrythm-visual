@@ -37,7 +37,7 @@ function App() {
       <div className={'w-full min-w-full overflow-x-hidden ' + (darkMode ? 'dark' : '')}>
         <Navbar muteAudio={muteAudio} setMuteAudio={setMuteAudio} toggleDarkMode={toggleDarkMode} darkMode={darkMode} volume={volume} setVolume={setVolume} />
 
-        <div className='bg-slate-100 dark:bg-gray-800 dark:text-gray-300 flex min-h-screen max-w-max flex-col mx-auto justify-start px-1 pt-20 overflow-x-hidden'>
+        <div className='bg-transparent dark:text-gray-300 flex min-h-screen max-w-max flex-col mx-auto justify-start px-1 pt-20 overflow-x-hidden'>
           <Routes>
             <Route path='/' element={<PolyrhythmParent volume={volume} muteAudio={muteAudio} />} />
             <Route path='/polyrhythm' element={<PolyrhythmParent volume={volume} muteAudio={muteAudio} />} />

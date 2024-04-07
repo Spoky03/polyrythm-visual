@@ -11,7 +11,23 @@
   }
   
   .dark{
-    @apply bg-gray-800 text-gray-200;
+    @apply text-gray-200 bg-gradient-to-bl bg-gradient-to-bl from-gray-700 from-30% via-cyan-900 to-70% to-gray-700 to-70%
+  }
+
+  
+  .volume-slider::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    border-radius: 10px;
+    background-color: #94a3b8;
+  }
+
+  .dark .volume-slider::before {
+    background-color: rgb(229 231 235);
   }
 
 }

@@ -28,6 +28,7 @@ const VolumeSlider = ({ volume, setVolume, muteAudio, setMuteAudio }) => {
   };
 
   return (
+    <>
     <Slider
       min={0}
       max={1}
@@ -35,10 +36,22 @@ const VolumeSlider = ({ volume, setVolume, muteAudio, setMuteAudio }) => {
       value={localVolume}
       onChange={handleInputUpdate}
       onAfterChange={handleVolumeChange}
-      className="rounded-md w-full h-5 w-full justify-center place-self-center"
+      className="volume-slider rounded-md w-full h-5 w-full justify-center place-self-center"
       thumbClassName="dark:bg-cyan-400 bg-cyan-700 w-5 h-5 rounded-full cursor-pointer top-0"
-      trackClassName="dark:bg-gray-200 bg-slate-900 rounded-2xl inset-y-1.5"
+      renderTrack={({ key, index }, state) => (
+        <div
+          key={key}
+          className={`absolute left-0 h-2 rounded-2xl ${index === 0 ? 'dark:bg-gray-200 bg-slate-900' : 'dark:bg-cyan-400 bg-cyan-700'}`}
+          style={{
+            ...state.style,
+            bottom: '50%',
+            transform: 'translateY(50%)',
+            right: `${100 - localVolume * 100}%`,
+          }}
+        />
+      )}
     />
+    </>
   );
 };
 
